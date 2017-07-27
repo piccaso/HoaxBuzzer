@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.0.0
+MinimumVisualStudioVersion = 10.0.0.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoaxBuzzer.Web", "HoaxBuzzer.Web\HoaxBuzzer.Web.csproj", "{2B6BC29B-0D83-4EE5-9E34-772D817CD183}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoaxBuzzer.Test", "HoaxBuzzer.Test\HoaxBuzzer.Test.csproj", "{F423C34B-E130-4568-B6D0-D8C3DDA9D348}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B6BC29B-0D83-4EE5-9E34-772D817CD183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B6BC29B-0D83-4EE5-9E34-772D817CD183}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B6BC29B-0D83-4EE5-9E34-772D817CD183}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B6BC29B-0D83-4EE5-9E34-772D817CD183}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F423C34B-E130-4568-B6D0-D8C3DDA9D348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F423C34B-E130-4568-B6D0-D8C3DDA9D348}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F423C34B-E130-4568-B6D0-D8C3DDA9D348}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F423C34B-E130-4568-B6D0-D8C3DDA9D348}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
