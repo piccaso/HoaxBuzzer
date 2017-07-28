@@ -2,6 +2,7 @@
 using System.Data;
 using System.Linq;
 using Dapper;
+using HoaxBuzzer.Web.Helper;
 using HoaxBuzzer.Web.Repositories;
 using Npgsql;
 using NUnit.Framework;
@@ -17,11 +18,28 @@ namespace HoaxBuzzer.Test
     [TestFixture]
     public class Tests
     {
+        [Test]
+        public void AppSettings1()
+        {
+            var exCnt = 0;
+            try
+            {
+                AppSettings.Get("does-not-exist-234");
+            }
+            catch (Exception)
+            {
+                exCnt++;
+            }
+            var guid = Guid.NewGuid().ToString();
+            var fallback = AppSettings.Get("does-not-exist-456", guid);
+            Assert.AreEqual(guid,fallback);
+            Assert.AreEqual(1,exCnt);
+        }
         
         [Test]
         public void PostgresDa1()
         {
-            var connstr = "Server=horton.elephantsql.com;Port=5432;Database=axuxxckc;User Id=axuxxckc;Password=D-PDMFucL5YjDvHHdGCcUIS8J2WXtoIM;Search Path=db,public;";
+            var connstr = AppSettings.Get("DbConnectionString");
             using (var db = new NpgsqlConnection(connstr))
             {
                 var r = new Random();

@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.0.0
-MinimumVisualStudioVersion = 10.0.0.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoaxBuzzer.Web", "HoaxBuzzer.Web\HoaxBuzzer.Web.csproj", "{2B6BC29B-0D83-4EE5-9E34-772D817CD183}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoaxBuzzer.Test", "HoaxBuzzer.Test\HoaxBuzzer.Test.csproj", "{F423C34B-E130-4568-B6D0-D8C3DDA9D348}"
