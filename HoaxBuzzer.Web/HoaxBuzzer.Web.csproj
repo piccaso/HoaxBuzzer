@@ -110,6 +110,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs" />
     <Compile Include="Helper\AppSettings.cs" />
+    <Compile Include="Helper\MqttClientFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Db.cs" />
     <Compile Include="Repositories\Entities.cs" />

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using Dapper;
 using HoaxBuzzer.Web.Helper;
 using HoaxBuzzer.Web.Repositories;
@@ -18,6 +20,49 @@ namespace HoaxBuzzer.Test
     [TestFixture]
     public class Tests
     {
+        [Test]
+        public void Mqtt1()
+        {
+            var rnd = new Random();
+            var client1 = MqttClientFactory.CreateConnectedClient();
+            var client2 = MqttClientFactory.CreateConnectedClient();
+            var lck = new object();
+            string mqttMsg = null;
+
+            var topic = "opentrigger/tests/D59979C42762488F8B570A1F16BE3AB6/" + DateTime.Now.Ticks;
+            var msg = "asdf-" + DateTime.Now.Ticks;
+
+            client1.Subscribe(topic);
+            client1.MqttMsgPublishReceived += (sender, args) =>
+            {
+
+                var inMsg = Encoding.UTF8.GetString(args.Message);
+                var dbgMsg = $"msg '{inMsg}' from '{args.Topic}'";
+                Debug.WriteLine(dbgMsg);
+                lock (lck)
+                {
+                    mqttMsg = inMsg;
+                }
+            };
+
+            client2.Publish(topic, Encoding.UTF8.GetBytes(msg));
+
+            var sw = new Stopwatch();
+            sw.Start();
+
+            while (true)
+            {
+                lock (lck)
+                {
+                    if(mqttMsg == msg) break;
+                }
+                System.Threading.Thread.Sleep(500);
+                if(sw.ElapsedMilliseconds > 5000) throw new Exception("Timeout");
+            }
+            client1.Disconnect();
+            client2.Disconnect();
+            Assert.AreEqual(msg, mqttMsg);
+        }
         [Test]
         public void AppSettings1()
         {
