@@ -1,0 +1,87 @@
+﻿@using HoaxBuzzer.Web.Helper
+
+@{
+    ViewBag.Title = "ScreenN";
+    var dummyButtons = AppSettings.Get("EnableDummyButtons", true);
+}
+
+<div class="screen-n">
+    <div class="article">
+        @Html.Action("ScreenNcontent")
+    </div>
+</div>
+
+<!--
+dummy buttons for development - can be by setting 'EnableDummyButtons' to 'False' (Environment, Web.Config, etc...)
+-->
+@if (dummyButtons)
+{
+    <div class="dummy-buttons">
+        <button class="vote-true" style="width: 40%; float: right; background: green">I believe it</button>
+        <button class="vote-false" style="width: 40%; float: left; background: red">Fake news</button>
+        <br style="clear: both" />
+    </div>
+    <style>
+        .screen-n {
+            min-height: calc(100vh - 70px);
+        }
+
+         @@keyframes ButtonAnimation {
+             0% {opacity: 1;}
+             5% {opacity: 0;}
+             95% {opacity: 0;}
+             100% {opacity: 1;}
+         }
+        body.animate .dummy-buttons {
+            animation: ButtonAnimation 4s;
+        }
+    </style>
+}
+
+<style>
+    @@keyframes FromTop {
+        0% {top: 0; opacity: 1}
+        30% {top: +1000px; opacity: 0}
+        60% {top: -1000px; opacity: 0}
+        100% {top: 0; opacity: 1}
+    }
+
+    .animate .screen-n .article {
+        position: relative;
+        animation: FromTop 4s;
+    }
+</style>
+
+@section scripts
+{
+    <script>
+        jQuery(document).ready(function($) {
+            "use strict";
+            var topic = window.channels.ScreenN;
+            var websocket = window.channels.Websocket;
+            var ajaxContent = window.config.ajaxScreenNcontent;
+            var ajaxSetVote = window.config.ajaxSetVote;
+            var client = mqtt.connect(websocket);
+
+            client.on("message",
+                function(topic, payload) {
+                    var o = JSON.parse(payload.toString());
+                    var articleId = o.articleId;
+                    var ajaxUrl = ajaxContent + '/?articleId=' + articleId;
+                    $(".screen-n .article").load(ajaxUrl);
+                    $(document.body).StartCssAnimation('animate');
+                });
+
+            function vote(value) {
+                var articleId = $("#article-id").text();
+                var ajaxUrl = ajaxSetVote + '/?articleId=' + articleId + '&voteValue=' + (value ? "True" : "False");
+                $.get(ajaxUrl);
+            }
+
+            $(".vote-true").on("click", function() { vote(true); });
+            $(".vote-false").on("click", function() { vote(false); });
+
+            client.subscribe(topic);
+        });
+    </script>
+}

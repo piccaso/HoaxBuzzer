@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Iframes";
+}
+
+<table style="width: 100%; text-align: center; font-size: 3em">
+    <tr><td></td><td>@RenderIframe("ScreenN")</td><td></td></tr>
+    <tr><td>@RenderIframe("ScreenW")</td><td>@RenderIframe("ScreenS")</td><td>@RenderIframe("ScreenO")</td></tr>
+</table>
+
+@helper RenderIframe(string actionName)
+{
+    <iframe style="width: 100%; height: 600px; overflow: hidden" src="@Url.Action(actionName)" scrolling="no"></iframe>
+}
+

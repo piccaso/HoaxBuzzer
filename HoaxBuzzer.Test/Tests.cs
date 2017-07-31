@@ -54,13 +54,13 @@ namespace HoaxBuzzer.Test
             {
                 lock (lck)
                 {
-                    if(mqttMsg == msg) break;
+                    if(mqttMsg == msg || sw.ElapsedMilliseconds > 5000) break;
                 }
                 System.Threading.Thread.Sleep(500);
-                if(sw.ElapsedMilliseconds > 5000) throw new Exception("Timeout");
             }
             client1.Disconnect();
             client2.Disconnect();
+
             Assert.AreEqual(msg, mqttMsg);
         }
         [Test]
@@ -95,14 +95,14 @@ namespace HoaxBuzzer.Test
                 var statistics = articles.Select(a =>
                 {
                     var voteId = db.setVote(a, r.NextBool());
-                    return db.getStatisticsForVote(voteId);
+                    return db.GetStatisticsForVote(voteId);
                 }).ToList();
 
                 for (var i = 0; i < articles.Count; i++)
                 {
                     var a = db.GetNextArticle();
                     var voteId = db.setVote(a.id, r.NextBool());
-                    var stat = db.getStatisticsForVote(voteId);
+                    var stat = db.GetStatisticsForVote(voteId);
                     statistics.Add(stat);
                 }
                 

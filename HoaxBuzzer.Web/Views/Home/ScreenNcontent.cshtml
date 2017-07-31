@@ -1,0 +1,24 @@
+﻿@using HoaxBuzzer.Web.Helper
+@model HoaxBuzzer.Web.Models.BevoreVoteScreenModel
+
+@{
+    Layout = null;
+    var article = Model.Article;
+}
+
+@*keep this*@ 
+<div style="display: none" id="article-id">@article.id</div>
+
+<h2>@article.heading</h2>
+<img src="@Url.Action("Image", new {imageId=article.fkScreenshot})" alt="screenshot"/>
+<p>@article.summary</p>
+<small>Source: @article.sourceUrl</small>
+
+@if (article.fbLikes.HasValue)
+{
+    <div>@article.fbLikes Likes</div>
+}
+
+<pre>
+@ViewHelper.DumpJson(Model)
+</pre>

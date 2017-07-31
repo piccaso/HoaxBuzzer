@@ -1,0 +1,17 @@
+﻿@using HoaxBuzzer.Web.Helper
+@model HoaxBuzzer.Web.Models.AfterVoteScreenModel
+
+@{
+    Layout = null;
+    var stats = Model.VoteStatistics;
+    var percentage = Math.Round(stats.sameVote / ((decimal)stats.allVotes / 100), 1);
+}
+
+<div>
+    your choice was @(Model.VoteStatistics.votedCorrect ? "CORRECT":"WRONG") !
+    you are one of @percentage%
+</div>
+
+<pre>
+@ViewHelper.DumpJson(Model);
+</pre>

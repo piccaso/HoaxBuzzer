@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "ScreenO";
+}
+
+<div class="screen-o">
+
+</div>
+
+<style>
+    @@keyframes FromLeftTop {
+        0% {
+            top: 0;
+            left: 0;
+            opacity: 1;
+        }
+
+        30% {
+            top: +1000px;
+            left: +100px;
+            opacity: 0;
+        }
+
+        60% {
+            top: -1000px;
+            left: -1000px;
+            opacity: 0;
+        }
+
+        100% {
+            top: 0;
+            left: 0;
+            opacity: 1;
+        }
+    }
+
+    .animate .screen-o {
+        position: relative;
+        animation: FromLeftTop 1s;
+    }
+</style>
+
+
+@section scripts
+{
+    <script>
+        jQuery(document).ready(function ($) {
+            "use strict";
+            var topic = window.channels.ScreenO;
+            var websocket = window.channels.Websocket;
+            var ajaxContent = window.config.ajaxScreenOcontent;
+            var client = mqtt.connect(websocket);
+
+            client.on("message", function(topic, payload) {
+                var o = JSON.parse(payload.toString());
+                var articleId = o.articleId;
+                var voteId = o.voteId;
+                var ajaxUrl = ajaxContent + '/?articleId=' + articleId + '&voteId=' + voteId;
+                $(document.body).StartCssAnimation("animate");
+                $(".screen-o").load(ajaxUrl);
+            });
+
+            client.subscribe(topic);
+        });
+    </script>
+}

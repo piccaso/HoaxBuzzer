@@ -1,0 +1,19 @@
+﻿@using HoaxBuzzer.Web.Helper
+@model HoaxBuzzer.Web.Models.AfterVoteScreenModel
+
+@{
+    Layout = null;
+}
+
+@if (Model.Article.articleIsTrue)
+{
+    <div>the article was REAL!</div>
+}
+else
+{
+    <div>the article was FAKE!</div>
+}
+
+<pre>
+@ViewHelper.DumpJson(Model);
+</pre>

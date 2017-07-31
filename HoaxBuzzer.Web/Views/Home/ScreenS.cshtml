@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "ScreenS";
+}
+
+<div class="screen-s">
+    
+</div>
+
+<style>
+    @@keyframes FromTop {
+        0% {
+            top: 0;
+            opacity: 1;
+        }
+
+        30% {
+            top: +1000px;
+            opacity: 0;
+        }
+
+        60% {
+            top: -1000px;
+            opacity: 0;
+        }
+
+        100% {
+            top: 0;
+            opacity: 1;
+        }
+    }
+
+    .animate .screen-s {
+        position: relative;
+        animation: FromTop 1s;
+    }
+</style>
+
+
+@section scripts
+{
+    <script>
+        jQuery(document).ready(function ($) {
+            "use strict";
+            var topic = window.channels.ScreenS;
+            var websocket = window.channels.Websocket;
+            var ajaxContent = window.config.ajaxScreenScontent;
+            var client = mqtt.connect(websocket);
+
+            client.on("message", function(topic, payload) {
+                var o = JSON.parse(payload.toString());
+                var articleId = o.articleId;
+                var voteId = o.voteId;
+                var ajaxUrl = ajaxContent + '/?articleId=' + articleId + '&voteId=' + voteId;
+                $(document.body).StartCssAnimation('animate');
+                $(".screen-s").load(ajaxUrl);
+            });
+            
+            client.subscribe(topic);
+        });
+    </script>
+}
