@@ -33,9 +33,12 @@ namespace HoaxBuzzer.Web.Business
             public string ScreenW { get; set; }
             public string ScreenO { get; set; }
 
+            public string OpenTriggerRelease { get; set; }
+
             public string Vote { get; set; }
 
             public string Debug { get; set; }
+            
         }
 
         public Channels GetChannels()
@@ -79,7 +82,8 @@ namespace HoaxBuzzer.Web.Business
                     ScreenW = $"{prefix}/W",
                     ScreenO = $"{prefix}/O",
                     Vote = $"{prefix}/Vote",
-                    Debug = $"{prefix}/Debug"
+                    Debug = $"{prefix}/Debug",
+                    OpenTriggerRelease = AppSettings.Get<string>("OpenTriggerTopic", null),
                 };
 
             }
@@ -103,6 +107,7 @@ namespace HoaxBuzzer.Web.Business
                 };
 
                 _mqttClient.Subscribe(_channels.Vote);
+                if (!string.IsNullOrWhiteSpace(_channels.OpenTriggerRelease)) _mqttClient.Subscribe(_channels.OpenTriggerRelease);
                 
                 _mqttClient.MqttMsgPublishReceived += (sender, args) =>
                 {
@@ -146,6 +151,14 @@ namespace HoaxBuzzer.Web.Business
                     SetVote(articleId, voteValue);
                     return;
                 }
+
+                if (topic == _channels.OpenTriggerRelease && !string.IsNullOrWhiteSpace(_channels.OpenTriggerRelease))
+                {
+                    var uniqueIdentifier = message["UniqueIdentifier"].ToObject<string>();
+                    SetVoteOpenTrigger(uniqueIdentifier);
+                    return;
+                }
+
                 throw new Exception("oob topic: " + topic);
             }
             catch (Exception e)
@@ -153,6 +166,22 @@ namespace HoaxBuzzer.Web.Business
                 Console.WriteLine(e);
                 PublishDebugMessage(e);
             }
+        }
+
+        private void SetVoteOpenTrigger(string uniqueIdentifier)
+        {
+            var matchFalse = AppSettings.Get("OpenTriggerMatchFalse");
+            var matchTrue = AppSettings.Get("OpenTriggerMatchTrue");
+            bool? vote = null;
+
+            if (uniqueIdentifier.Contains(matchTrue)) vote = true;
+            if (uniqueIdentifier.Contains(matchFalse)) vote = false;
+            if (!vote.HasValue)
+            {
+                throw new Exception($"oob uid: {uniqueIdentifier}");
+            }
+            SetVote(null, vote.Value);
+
         }
 
         public int? SetVote(int? articleId, bool voteValue)
@@ -172,6 +201,7 @@ namespace HoaxBuzzer.Web.Business
             {
                 voteId = db.setVote(articleId.Value, voteValue);
                 nextArticleId = db.GetNextArticleId();
+                db.Close();
             }
 
             // N: next question
@@ -183,6 +213,11 @@ namespace HoaxBuzzer.Web.Business
             PublishMessage(_channels.ScreenO, new {articleId, voteId});
             _currentArticleId = nextArticleId;
             return nextArticleId;
+        }
+
+        public void SetCurrentArticleId(int articleId)
+        {
+            _currentArticleId = articleId;
         }
     }
 }

@@ -91,6 +91,7 @@ namespace HoaxBuzzer.Web.Controllers
                 }
                 db.Close();
             }
+            Global.UseGlobalVotingLogic(l=>l.SetCurrentArticleId(model.Article.id));
             return View(model);
         }
 

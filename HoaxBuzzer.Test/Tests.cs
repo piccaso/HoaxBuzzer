@@ -32,7 +32,13 @@ namespace HoaxBuzzer.Test
             var topic = "opentrigger/tests/D59979C42762488F8B570A1F16BE3AB6/" + DateTime.Now.Ticks;
             var msg = "asdf-" + DateTime.Now.Ticks;
 
+            client1.MqttMsgSubscribed += (sender, args) =>
+            {
+                Debug.WriteLine($"subscribed {args.MessageId}");
+            };
+
             client1.Subscribe(topic);
+            client1.Subscribe(topic + "/ll");
             client1.MqttMsgPublishReceived += (sender, args) =>
             {
 

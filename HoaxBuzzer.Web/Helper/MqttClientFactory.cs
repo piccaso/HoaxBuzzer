@@ -36,9 +36,9 @@ namespace HoaxBuzzer.Web.Helper
             return CreateConnectedClient(connection);
         }
 
-        public static ushort Subscribe(this MqttClient client, string topic)
+        public static ushort Subscribe(this MqttClient client, params string[] topics)
         {
-            return client.Subscribe(new[] {topic}, new[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
+            return client.Subscribe(topics, new[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
         }
 
     }
