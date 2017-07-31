@@ -97,8 +97,6 @@ namespace HoaxBuzzer.Web.Business
                     var msg = new
                     {
                         @event = "MqttMsgSubscribed",
-                        type = GetType().FullName,
-                        channel = _channels.Vote,
                         client.ClientId,
                         args.MessageId,
                         args.GrantedQoSLevels,
