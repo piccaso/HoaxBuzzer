@@ -155,11 +155,11 @@ namespace HoaxBuzzer.Web.Business
             }
         }
 
-        public void SetVote(int? articleId, bool voteValue)
+        public int? SetVote(int? articleId, bool voteValue)
         {
             lock (Sync)
             {
-                if(_ignoreVotesUntil.HasValue && _ignoreVotesUntil.Value > DateTime.Now) return;
+                if(_ignoreVotesUntil.HasValue && _ignoreVotesUntil.Value > DateTime.Now) return null;
                 var delay = AppSettings.Get<int>("VoteDelay");
                 _ignoreVotesUntil = DateTime.Now.AddSeconds(delay);
             }
@@ -182,6 +182,7 @@ namespace HoaxBuzzer.Web.Business
             PublishMessage(_channels.ScreenS, new {articleId, voteId});
             PublishMessage(_channels.ScreenO, new {articleId, voteId});
             _currentArticleId = nextArticleId;
+            return nextArticleId;
         }
     }
 }

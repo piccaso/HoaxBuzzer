@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
+using Dapper;
 using HoaxBuzzer.Web.Helper;
 using HoaxBuzzer.Web.Models;
 using HoaxBuzzer.Web.Repositories;
@@ -25,6 +26,7 @@ namespace HoaxBuzzer.Web.Controllers
                 ajaxScreenNcontent = Url.Action("ScreenNcontent"),
                 ajaxScreenScontent = Url.Action("ScreenScontent"),
                 ajaxScreenOcontent = Url.Action("ScreenOcontent"),
+                ajaxHeartBeat = Url.Action("HeartBeat"),
             };
 
             var jsonConfig = JToken.FromObject(config).ToString(Formatting.Indented);
@@ -36,14 +38,37 @@ namespace HoaxBuzzer.Web.Controllers
 
         private readonly string _connectionString = AppSettings.Get("DbConnectionString");
 
-        public ActionResult SetVote(int articleId, bool voteValue)
+        public ActionResult HeartBeat()
         {
+            object result;
+            using (var db = new NpgsqlConnection(_connectionString))
+            {
+                var referrer = Request.UrlReferrer?.ToString();
+                var ts = db.QueryFirst<DateTime>("SELECT now()");
+                db.Close();
+                result = new {dbNow = ts, aspNow = DateTime.Now, referrer};
+            }
+
             Global.UseGlobalVotingLogic(l =>
             {
-                l.SetVote(articleId,voteValue);
+                l.PublishDebugMessage(result);
             });
 
-            return new EmptyResult();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SetVote(int articleId, bool voteValue)
+        {
+            object result = null;
+            Global.UseGlobalVotingLogic(l =>
+            {
+                result = new
+                {
+                    nextArticleId = l.SetVote(articleId, voteValue),
+                };
+            });
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Index() => View();
@@ -64,7 +89,7 @@ namespace HoaxBuzzer.Web.Controllers
                 {
                     model.Article = db.GetNextArticle();
                 }
-                
+                db.Close();
             }
             return View(model);
         }
@@ -74,6 +99,7 @@ namespace HoaxBuzzer.Web.Controllers
             using (var db = new NpgsqlConnection(_connectionString))
             {
                 var image = db.GetImage(imageId);
+                db.Close();
                 return new FileContentResult(image.data, image.contentType);
             }
         }
@@ -85,6 +111,7 @@ namespace HoaxBuzzer.Web.Controllers
             {
                 model.VoteStatistics = db.GetStatisticsForVote(voteId);
                 model.Article = db.GetArticle(articleId);
+                db.Close();
             }
             return model;
         }
