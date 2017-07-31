@@ -136,6 +136,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
+    <Content Include="Repositories\data.sql" />
+    <Content Include="Repositories\db.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1-vsdoc.js" />

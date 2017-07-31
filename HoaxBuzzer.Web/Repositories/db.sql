@@ -11,7 +11,7 @@
 	"heading" TEXT NOT NULL,
 	"summary" TEXT NOT NULL,
 	"metricsAlteration" integer,
-	"metricsTrue" BOOLEAN, -- TODO: metrics!
+	"metricsTrue" BOOLEAN, 
 	"fbShares" integer,
 	"fbLikes" integer,
 	"fbComments" integer,
