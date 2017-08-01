@@ -7,7 +7,7 @@
 
 .fullscreen {
     opacity: 0;
-    animation: FadeAway 5s;
+    animation: FadeAway 20s;
     height: 0;
     overflow: hidden;
 }
