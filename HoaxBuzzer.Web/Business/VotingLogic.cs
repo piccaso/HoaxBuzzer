@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using CoAP;
 using HoaxBuzzer.Web.Helper;
 using HoaxBuzzer.Web.Repositories;
 using Newtonsoft.Json;
@@ -178,11 +179,11 @@ namespace HoaxBuzzer.Web.Business
             {
                 throw new Exception($"oob uid: {uniqueIdentifier}");
             }
-            SetVote(null, vote.Value);
+            SetVote(null, vote.Value, uniqueIdentifier);
 
         }
 
-        public int? SetVote(int? articleId, bool voteValue)
+        public int? SetVote(int? articleId, bool voteValue, string uniqueIdentifier = null)
         {
             lock (Sync)
             {
@@ -195,10 +196,15 @@ namespace HoaxBuzzer.Web.Business
             if (!articleId.HasValue) throw new Exception("articleId needed to set vote");
 
             int voteId, nextArticleId;
+            Entities.VoteStatistics voteStatistics = null;
             using (var db = new NpgsqlConnection(_connectionString))
             {
                 voteId = db.setVote(articleId.Value, voteValue);
                 nextArticleId = db.GetNextArticleId();
+                if (uniqueIdentifier != null)
+                {
+                    voteStatistics = db.GetStatisticsForVote(voteId);
+                }
                 db.Close();
             }
 
@@ -210,6 +216,16 @@ namespace HoaxBuzzer.Web.Business
             PublishMessage(_channels.ScreenS, new {articleId, voteId});
             PublishMessage(_channels.ScreenO, new {articleId, voteId});
             _currentArticleId = nextArticleId;
+
+            if (uniqueIdentifier != null && voteStatistics != null)
+            {
+                var payloadConfigKey = voteStatistics.votedCorrect ? "OpenTriggerCorrectAnswerPayload" : "OpenTriggerWrongAnswerPayload";
+                var payload = AppSettings.Get(payloadConfigKey);
+                var uri = new Uri($"coap://{uniqueIdentifier}/led/RGB");
+                var request = new Request(Method.PUT) {URI = uri, PayloadString = payload};
+                request.Send();
+            }
+
             return nextArticleId;
         }
 
