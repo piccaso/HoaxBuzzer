@@ -3,6 +3,8 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using CoAP;
+using CoAP.Log;
 using Dapper;
 using HoaxBuzzer.Web.Helper;
 using HoaxBuzzer.Web.Repositories;
@@ -20,6 +22,35 @@ namespace HoaxBuzzer.Test
     [TestFixture]
     public class Tests
     {
+
+        [Test]
+        public void Coap1()
+        {
+            LogManager.Level = LogLevel.All;
+            var req = new Request(Method.GET,true);
+            req.URI = new Uri("coap://coap.me:5683/hello");
+            Debug.WriteLine($"req.URI={req.URI}");
+            req.Send();
+            var res = req.WaitForResponse(5000);
+            Assert.IsNotNull(res);
+            Debug.WriteLine(res.PayloadString);
+            Assert.AreEqual("world", res.PayloadString);
+        }
+
+        [Test]
+        public void Coap2()
+        {
+            LogManager.Level = LogLevel.All;
+            var req = new Request(Method.PUT, true);
+            req.URI = new Uri("coap://[aaaa::221:2eff:ff00:c7e5]/led/RGB");
+            req.PayloadString = "r=255&g=0&b=0&delay=20&times=3";
+            Debug.WriteLine($"req.URI={req.URI}");
+            req.Send();
+            var res = req.WaitForResponse(10000);
+            if(res == null) Assert.Inconclusive("no response");
+            Debug.WriteLine(res.PayloadString);
+        }
+
         [Test]
         public void Mqtt1()
         {
