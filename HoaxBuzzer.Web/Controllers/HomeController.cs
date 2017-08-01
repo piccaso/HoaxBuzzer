@@ -58,7 +58,7 @@ namespace HoaxBuzzer.Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult SetVote(int articleId, bool voteValue)
+        public ActionResult SetVote(int? articleId, bool voteValue)
         {
             object result = null;
             Global.UseGlobalVotingLogic(l =>
@@ -129,5 +129,6 @@ namespace HoaxBuzzer.Web.Controllers
         public ActionResult ScreenOcontent(int articleId, int voteId) => View(GetAfterVoteScreenModel(articleId, voteId));
 
         public ActionResult ScreenW() => View();
+
     }
 }

@@ -1,5 +1,8 @@
-﻿@{
+﻿@using HoaxBuzzer.Web.Helper
+@{
     ViewBag.Title = "Home Page";
+    var voteDelay = AppSettings.Get("VoteDelay");
+    var animationTime = string.Format("{0}s", voteDelay).ToRawHtml();
 }
 
 <style>
@@ -18,3 +21,43 @@
     <li><a href="javascript:;" class="reset-command">RESET</a></li>
     <li><a href="http://viewportsizes.com/mine/">http://viewportsizes.com/mine/</a></li>
 </ul>
+
+
+<div class="buttons">
+    <button class="vote-true" style="float: right; background: green">&#128077;</button>
+    <button class="vote-false" style="float: left; background: red">&#128078;</button>
+    <br style="clear: both" />
+</div>
+<style>
+    .buttons button { width: 45%; font-size: 3em;height: 100vh; }
+
+    @@keyframes ButtonAnimation {
+        0% {opacity: 1;}
+        5% {opacity: 0.3;}
+        95% {opacity: 0.3;}
+        100% {opacity: 1;}
+    }
+    body.animate .buttons {
+            animation: ButtonAnimation @animationTime;
+    }
+</style>
+
+@section scripts
+{
+    <script>
+        jQuery(document).ready(function($) {
+            "use strict";
+            var ajaxSetVote = window.config.ajaxSetVote;
+            
+            function vote(value) {
+                var articleId = $("#article-id").text();
+                var ajaxUrl = ajaxSetVote + '?voteValue=' + (value ? "True" : "False");
+                $.get(ajaxUrl);
+                $(document.body).StartCssAnimation("animate");
+            }
+
+            $(".vote-true").on("click", function() { vote(true); });
+            $(".vote-false").on("click", function() { vote(false); });
+        });
+    </script>
+}
