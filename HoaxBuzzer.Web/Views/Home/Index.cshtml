@@ -1,10 +1,11 @@
-﻿@using System.Web.UI.HtmlControls
-@{
+﻿@{
     ViewBag.Title = "Home Page";
 }
 
 <style>
-    table td {padding: 1em; font-size: 5em}
+    table,ul { font-size: 5em}
+    table td {padding: 1em}
+    ul {padding-left: 10vw}
 </style>
 
 <table style="width: 100%; text-align: center">
@@ -12,9 +13,8 @@
     <tr><td>@Html.ActionLink("W", "ScreenW")</td><td>@Html.ActionLink("S", "ScreenS")</td><td>@Html.ActionLink("O", "ScreenO")</td></tr>
 </table>
 
-<div style="font-size: 4em">
-    <ul>
-        <li>@Html.ActionLink("iframes", "Iframes")</li>
-        <li><button class="reset-command">RESET</button></li>
-    </ul>
-</div>
+<ul>
+    <li>@Html.ActionLink("iframes", "Iframes")</li>
+    <li><a href="javascript:;" class="reset-command">RESET</a></li>
+    <li><a href="http://viewportsizes.com/mine/">http://viewportsizes.com/mine/</a></li>
+</ul>

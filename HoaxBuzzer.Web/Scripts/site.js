@@ -1,13 +1,21 @@
-jQuery.fn.StartCssAnimation = function (className) {
+jQuery.fn.StartCssAnimation = function (className, removeOnEnd) {
     "use strict";
     var $self = $(this);
     $self.removeClass(className);
-    setTimeout(function () {
-        $self.addClass(className);
+    void (document.documentElement.offsetHeight);
+    $self.addClass(className);
+
+    if (typeof removeOnEnd == "undefined") removeOnEnd = false;
+
+    if (removeOnEnd) {
+        var done = false;
         $self.one("webkitAnimationEnd oanimationend msAnimationEnd animationend", function () {
+            if (done) return;
             $self.removeClass(className);
+            done = true;
         });
-    }, 1);
+        
+    }
 };
 
 jQuery(document).ready(function ($) {
