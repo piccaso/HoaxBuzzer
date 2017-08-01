@@ -28,4 +28,21 @@ jQuery(document).ready(function ($) {
     }
 
     setInterval(beat, rnd(20000,30000));
+
+    function launchIntoFullscreen(element) {
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
+    }
+
+    $('.fullscreen').on("click", function() {
+        $(this).hide();
+        launchIntoFullscreen(document.documentElement);
+    });
 });
