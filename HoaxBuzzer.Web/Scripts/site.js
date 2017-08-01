@@ -45,4 +45,25 @@ jQuery(document).ready(function ($) {
         $(this).hide();
         launchIntoFullscreen(document.documentElement);
     });
+
+    function setupCommandChannel() {
+        var topic = window.channels.Command;
+        var websocket = window.channels.Websocket;
+        var client = mqtt.connect(websocket);
+        var resetCommand = "$reset$";
+
+        client.on("message", function(t, p) {
+            if (topic === t) {
+                var strPayload = p.toString();
+                if (strPayload === resetCommand) {
+                    window.location.reload(true);
+                }
+            }
+        });
+        client.subscribe(topic);
+        $('.reset-command').on("click", function() {
+            client.publish(topic, resetCommand);
+        });
+    }
+    setupCommandChannel();
 });

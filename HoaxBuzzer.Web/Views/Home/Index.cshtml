@@ -3,9 +3,18 @@
     ViewBag.Title = "Home Page";
 }
 
-<table style="width: 100%; text-align: center; font-size: 3em">
+<style>
+    table td {padding: 1em; font-size: 5em}
+</style>
+
+<table style="width: 100%; text-align: center">
     <tr><td></td><td>@Html.ActionLink("N", "ScreenN")</td><td></td></tr>
     <tr><td>@Html.ActionLink("W", "ScreenW")</td><td>@Html.ActionLink("S", "ScreenS")</td><td>@Html.ActionLink("O", "ScreenO")</td></tr>
 </table>
 
-@Html.ActionLink("Iframes","Iframes")<br/>
+<div style="font-size: 4em">
+    <ul>
+        <li>@Html.ActionLink("iframes", "Iframes")</li>
+        <li><button class="reset-command">RESET</button></li>
+    </ul>
+</div>

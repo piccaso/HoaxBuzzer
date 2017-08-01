@@ -39,7 +39,7 @@ namespace HoaxBuzzer.Web.Business
             public string Vote { get; set; }
 
             public string Debug { get; set; }
-            
+            public string Command { get; set; }
         }
 
         public Channels GetChannels()
@@ -84,6 +84,7 @@ namespace HoaxBuzzer.Web.Business
                     ScreenO = $"{prefix}/O",
                     Vote = $"{prefix}/Vote",
                     Debug = $"{prefix}/Debug",
+                    Command = $"{prefix}/Command",
                     OpenTriggerRelease = AppSettings.Get<string>("OpenTriggerTopic", null),
                 };
 
