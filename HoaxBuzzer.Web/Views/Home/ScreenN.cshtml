@@ -5,6 +5,10 @@
     var dummyButtons = AppSettings.Get("EnableDummyButtons", true);
 }
 
+<div class="countdown is-idle">
+    <div class="value"></div>
+</div>
+
 <div class="screen-n">
     <div class="article">
         @Html.Action("ScreenNcontent")
@@ -17,14 +21,13 @@ dummy buttons for development - can be by setting 'EnableDummyButtons' to 'False
 @if (dummyButtons)
 {
     <div class="dummy-buttons">
-        <button class="vote-true" style="width: 40%; float: right; background: green">I believe it</button>
-        <button class="vote-false" style="width: 40%; float: left; background: red">Fake news</button>
+        <button class="vote-true" style="float: right; background: green">I believe it</button>
+        <button class="vote-false" style="float: left; background: red">Fake news</button>
         <br style="clear: both" />
     </div>
     <style>
-        .screen-n {
-            min-height: calc(100vh - 70px);
-        }
+        .dummy-buttons {position: fixed; left: 0; bottom: 0; width: 100vw}
+        .dummy-buttons button { width: 40%; font-size: 2em}
 
          @@keyframes ButtonAnimation {
              0% {opacity: 1;}
@@ -50,6 +53,13 @@ dummy buttons for development - can be by setting 'EnableDummyButtons' to 'False
         position: relative;
         animation: FromTop 4s;
     }
+
+    .countdown {
+        position: fixed;
+        right: 100px;
+        top: 100px;
+    }
+
 </style>
 
 @section scripts
@@ -61,6 +71,30 @@ dummy buttons for development - can be by setting 'EnableDummyButtons' to 'False
             var websocket = window.channels.Websocket;
             var ajaxContent = window.config.ajaxScreenNcontent;
             var ajaxSetVote = window.config.ajaxSetVote;
+            var voteDelay = window.config.voteDelay;
+
+            var countdownHandle = null;
+
+            function startCountdown() {
+                if (countdownHandle != null) clearInterval(countdownHandle);
+                var $countdown = $('.countdown');
+                var $value = $countdown.find('.value');
+                $countdown.addClass("is-counting").removeClass("is-idle");
+                $value.text(voteDelay);
+                var countOneDown = function() {
+                    var cVal = parseInt($value.text());
+                    var nVal = cVal - 1;
+                    $value.text(nVal);
+                    if (nVal <= 0) {
+                        clearInterval(countdownHandle);
+                        countdownHandle = null;
+                        $countdown.removeClass("is-counting").addClass("is-idle");
+                        $value.text("");
+                    }
+                };
+                countdownHandle = setInterval(countOneDown, 1000);
+            }
+
             var client = mqtt.connect(websocket);
 
             client.on("message",
@@ -70,6 +104,7 @@ dummy buttons for development - can be by setting 'EnableDummyButtons' to 'False
                     var ajaxUrl = ajaxContent + '/?articleId=' + articleId;
                     $(".screen-n .article").load(ajaxUrl);
                     $(document.body).StartCssAnimation('animate');
+                    startCountdown();
                 });
 
             function vote(value) {

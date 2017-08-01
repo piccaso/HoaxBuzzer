@@ -27,6 +27,7 @@ namespace HoaxBuzzer.Web.Controllers
                 ajaxScreenScontent = Url.Action("ScreenScontent"),
                 ajaxScreenOcontent = Url.Action("ScreenOcontent"),
                 ajaxHeartBeat = Url.Action("HeartBeat"),
+                voteDelay = AppSettings.Get<int>("VoteDelay"),
             };
 
             var jsonConfig = JToken.FromObject(config).ToString(Formatting.Indented);
