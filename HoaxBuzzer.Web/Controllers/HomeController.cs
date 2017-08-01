@@ -101,6 +101,10 @@ namespace HoaxBuzzer.Web.Controllers
             {
                 var image = db.GetImage(imageId);
                 db.Close();
+                if (string.IsNullOrWhiteSpace(image.contentType))
+                {
+                    image.contentType = "application/octet-stream";
+                }
                 return new FileContentResult(image.data, image.contentType);
             }
         }

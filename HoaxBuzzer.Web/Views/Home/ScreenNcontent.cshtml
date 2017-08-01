@@ -4,13 +4,14 @@
 @{
     Layout = null;
     var article = Model.Article;
+    var screenshotUrl = Url.Action("Image", new {imageId = article.fkScreenshot});
 }
 
 @*keep this*@ 
 <div style="display: none" id="article-id">@article.id</div>
 
 <h2>@article.heading</h2>
-<img src="@Url.Action("Image", new {imageId=article.fkScreenshot})" alt="screenshot"/>
+<img src="@screenshotUrl" alt="screenshot"/>
 <p>@article.summary</p>
 <small>Source: @article.sourceUrl</small>
 
