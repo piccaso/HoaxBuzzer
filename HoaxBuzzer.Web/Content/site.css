@@ -1,11 +1,28 @@
 @keyframes FadeAway {
-        0% {opacity: 1}
-        80% {opacity: 1}
-        100% {opacity: 0}
-    }
+    0% { opacity: 1;height: auto;font-size: 2em;}
+    80% {opacity: 1}
+    95% { opacity: 0;height: auto;font-size: 2em;}
+    100% { height: 0; font-size: 0}
+}
 
-    .fullscreen {
-        font-size: 2em;
-        opacity: 0;
-        animation: FadeAway 30s;
-    }
+.fullscreen {
+    opacity: 0;
+    animation: FadeAway 5s;
+    height: 0;
+    overflow: hidden;
+}
+
+@keyframes spin {
+    0%   {transform:rotateZ(0);top: -5vh;opacity: 0;right: +5vw}
+    25% {transform:rotateZ(-10deg);}
+    40%, 60% {opacity: 1;}
+    50% {font-size: 250%;}
+    75% {transform:rotateZ(-5deg);}
+    98% {font-size: 0%;}
+    100% {top: +5vh;opacity: 0;right: 0}
+}
+
+.countdown.is-counting .value {
+    animation: spin 1s infinite;
+    position: relative;
+}

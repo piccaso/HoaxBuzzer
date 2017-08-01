@@ -10,6 +10,8 @@ namespace HoaxBuzzer.Web.Helper
 {
     public static class ViewHelper
     {
-        public static IHtmlString DumpJson(object o) => new HtmlString(JToken.FromObject(o).ToString(Formatting.Indented));
+        public static IHtmlString DumpJson(this object o) => new HtmlString(JToken.FromObject(o).ToString(Formatting.Indented));
+
+        public static IHtmlString ToRawHtml(this string s) => new HtmlString(s);
     }
 }

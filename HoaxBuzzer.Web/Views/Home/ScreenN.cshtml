@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "ScreenN";
     var dummyButtons = AppSettings.Get("EnableDummyButtons", true);
+    var voteDelay = AppSettings.Get("VoteDelay");
+    var animationTime = string.Format("{0}s", voteDelay).ToRawHtml();
 }
 
 <div class="countdown is-idle">
@@ -36,7 +38,7 @@ dummy buttons for development - can be by setting 'EnableDummyButtons' to 'False
              100% {opacity: 1;}
          }
         body.animate .dummy-buttons {
-            animation: ButtonAnimation 4s;
+            animation: ButtonAnimation @animationTime;
         }
     </style>
 }
@@ -51,7 +53,7 @@ dummy buttons for development - can be by setting 'EnableDummyButtons' to 'False
 
     .animate .screen-n .article {
         position: relative;
-        animation: FromTop 4s;
+        animation: FromTop @animationTime;
     }
 
     .countdown {
