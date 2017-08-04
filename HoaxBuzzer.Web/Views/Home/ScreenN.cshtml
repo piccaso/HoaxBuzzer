@@ -104,7 +104,10 @@ dummy buttons for development - can be by setting 'EnableDummyButtons' to 'False
                     var o = JSON.parse(payload.toString());
                     var articleId = o.articleId;
                     var ajaxUrl = ajaxContent + '/?articleId=' + articleId;
-                    $(".screen-n .article").load(ajaxUrl);
+                    var doAjax = function() {
+                        $(".screen-n .article").load(ajaxUrl);
+                    };
+                    setTimeout(doAjax, 3000);
                     $(document.body).StartCssAnimation('animate');
                     startCountdown();
                 });
