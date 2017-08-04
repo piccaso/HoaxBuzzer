@@ -128,3 +128,11 @@ BEGIN
 
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE EXTENSION IF NOT EXISTS plpython2u;
+DROP FUNCTION IF EXISTS http_get(character varying);
+CREATE OR REPLACE FUNCTION http_get(uri character varying) RETURNS bytea AS
+$BODY$
+import urllib2
+return urllib2.urlopen(uri).read()
+$BODY$ LANGUAGE plpython2u VOLATILE COST 100;
