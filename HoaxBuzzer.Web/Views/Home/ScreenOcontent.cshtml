@@ -5,6 +5,7 @@
     Layout = null;
     var stats = Model.VoteStatistics;
     var percentage = Math.Round(stats.sameVote / ((decimal)stats.allVotes / 100), 1);
+    var rnw = Model.VoteStatistics.GetRightAndWrong();
 }
 
 <div>
@@ -17,11 +18,11 @@
   <ul class="pieID legend">
     <li>
       <em>right</em>
-      <span>35</span>
+      <span>@rnw.Right</span>
     </li>
     <li>
       <em>wrong</em>
-      <span>65</span>
+      <span>@rnw.Wrong</span>
     </li>
   </ul>
 </section>
