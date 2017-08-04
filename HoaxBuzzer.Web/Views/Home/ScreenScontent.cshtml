@@ -14,8 +14,9 @@ else
     <div class="stamp stamp--false">the article was FAKE!</div>
 }
 
-
-@Html.Partial("Partial/Article", Model)
+<div stamp="@(Model.VoteStatistics.articleIsTrue ? "true":"false")">
+    @Html.Partial("Partial/Article", Model)
+</div>
 
 <pre>
 @Model.VoteStatistics.DumpJson()
