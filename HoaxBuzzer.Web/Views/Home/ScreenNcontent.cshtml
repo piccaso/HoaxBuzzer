@@ -10,16 +10,4 @@
 @*keep this*@ 
 <div style="display: none" id="article-id">@article.id</div>
 
-<h2>@article.heading</h2>
-<img src="@screenshotUrl" alt="screenshot"/>
-<p>@article.summary</p>
-<small>Source: @article.sourceUrl</small>
-
-@if (article.fbLikes.HasValue)
-{
-    <div>@article.fbLikes Likes</div>
-}
-
-<pre>
-@ViewHelper.DumpJson(Model)
-</pre>
+@Html.Partial("Partial/Article", Model)

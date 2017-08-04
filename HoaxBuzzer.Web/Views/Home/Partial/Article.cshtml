@@ -1,0 +1,17 @@
+﻿@model HoaxBuzzer.Web.Models.BevoreVoteScreenModel
+
+@{
+    var article = Model.Article;
+    var screenshotUrl = Url.Action("Image", new { imageId = article.fkScreenshot });
+}
+
+<h2>@article.heading</h2>
+<img src="@screenshotUrl" alt="screenshot" />
+<small>Source: @article.sourceUrl</small>
+<p>@article.summary</p>
+
+@if (article.fbLikes != null){ <div>@article.fbLikes fbLikes</div> }
+@if (article.fbComments != null){ <div>@article.fbComments fbComments</div> }
+@if (article.fbShares != null){ <div>@article.fbShares fbShares</div> }
+@if (article.twLikes != null){ <div>@article.twLikes twLikes</div> }
+@if (article.twRetweets != null){ <div>@article.twRetweets Likes</div> }

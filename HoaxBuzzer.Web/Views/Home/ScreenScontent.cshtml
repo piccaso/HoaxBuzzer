@@ -14,6 +14,9 @@ else
     <div>the article was FAKE!</div>
 }
 
+
+@Html.Partial("Partial/Article", Model)
+
 <pre>
-@ViewHelper.DumpJson(Model);
+@Model.VoteStatistics.DumpJson()
 </pre>
