@@ -7,11 +7,11 @@
 
 @if (Model.Article.articleIsTrue)
 {
-    <div class="stamp stamp--true">the article was REAL!</div>
+    <h1 class="stamp stamp--true">the article was REAL!</h1>
 }
 else
 {
-    <div class="stamp stamp--false">the article was FAKE!</div>
+    <h1 class="stamp stamp--false">the article was FAKE!</h1>
 }
 
 <div stamp="@(Model.VoteStatistics.articleIsTrue ? "true":"false")">
