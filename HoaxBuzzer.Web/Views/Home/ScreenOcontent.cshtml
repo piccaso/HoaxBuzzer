@@ -11,6 +11,20 @@
     your choice was @(Model.VoteStatistics.votedCorrect ? "CORRECT":"WRONG") !
     you are one of @percentage%
 </div>
+<section>
+  <div class="pieID pie">
+  </div>
+  <ul class="pieID legend">
+    <li>
+      <em>right</em>
+      <span>35</span>
+    </li>
+    <li>
+      <em>wrong</em>
+      <span>65</span>
+    </li>
+  </ul>
+</section>
 
 <pre>
 @Model.DumpJson()
