@@ -4,7 +4,7 @@
 }
 
 <div class="screen-s">
-    
+    <div class="content"></div>
 </div>
 
 <style>
@@ -15,7 +15,7 @@
         100% {opacity: 0;}
     }
 
-    .animate .screen-s {
+    .animate .screen-s .content {
         opacity: 0;
         position: relative;
         animation: FromTop 22s;
@@ -39,7 +39,7 @@
                 var voteId = o.voteId;
                 var ajaxUrl = ajaxContent + '/?articleId=' + articleId + '&voteId=' + voteId;
                 $(document.body).StartCssAnimation('animate');
-                $(".screen-s").load(ajaxUrl);
+                $(".screen-s .content").load(ajaxUrl);
             });
             
             client.subscribe(topic);
