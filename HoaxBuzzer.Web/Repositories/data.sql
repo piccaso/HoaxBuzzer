@@ -35,8 +35,7 @@ BEGIN
 
   -- insert a new image and store id in `image_id`
   INSERT INTO image (data, "contentType") VALUES (
-    http_get('http://lorempixel.com/400/200/'),
-    'image/gif' -- its a small transparent gif...
+    http_get('http://lorempixel.com/400/200/'), 'image/jpeg'
   ) RETURNING id INTO image_id;
 
   -- create a new articleGroup and store id in `group_id`
