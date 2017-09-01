@@ -6,6 +6,8 @@ DECLARE
   image_id INTEGER;
   group_id INTEGER;
 BEGIN
+  -- clear database
+  TRUNCATE TABLE article, image, vote, "articleGroup" CASCADE;
 
   -- insert a new image and store id in `image_id`
   INSERT INTO image (data, "contentType") VALUES ( http_get('http://lorempixel.com/400/200/'), 'image/jpeg') RETURNING id INTO image_id;
