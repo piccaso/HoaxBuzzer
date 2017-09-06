@@ -12,7 +12,7 @@
 </div>
 
 <div class="screen-n">
-    <div class="article content">
+    <div class="article content" style="margin:0; padding: 0">
         @Html.Action("ScreenNcontent")
     </div>
 </div>
@@ -20,6 +20,7 @@
 <!--
 dummy buttons for development - can be by setting 'EnableDummyButtons' to 'False' (Environment, Web.Config, etc...)
 -->
+@*
 @if (dummyButtons)
 {
     <div class="dummy-buttons">
@@ -42,6 +43,7 @@ dummy buttons for development - can be by setting 'EnableDummyButtons' to 'False
         }
     </style>
 }
+*@
 
 <style>
     @@keyframes FromTop {

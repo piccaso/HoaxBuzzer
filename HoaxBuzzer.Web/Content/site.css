@@ -226,4 +226,35 @@ section {
   float: right;
 }
 
+.article {
+  min-height: 100vh;
+}
 
+.article__shares {
+  margin-top: 0.3em;
+}
+
+.article__share {
+  display: inline;
+  margin-right: 15px;
+  font-size: 20px;
+}
+
+.article__share i {
+  display: table-cell;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  border-radius: 50%;
+  font-size: 23px;
+}
+
+.article__share i.fb {
+  background-color: #4267b2;
+}
+
+.article__share i.tw {
+  background-color: #1da1f2;
+}
