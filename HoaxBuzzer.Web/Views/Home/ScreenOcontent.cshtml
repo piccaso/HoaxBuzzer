@@ -8,25 +8,27 @@
     var rnw = Model.VoteStatistics.GetRightAndWrong();
 }
 
-<h1>
-    your choice was @(Model.VoteStatistics.votedCorrect ? "CORRECT":"WRONG") !
-    you are one of @percentage%
+<div class="text-align: center; background: white; height: 100vh">
+<h1 style="color: black; font-size: 30px; text-align: center;">
+    Deine Einschätzung war @(Model.VoteStatistics.votedCorrect ? "RICHTIG":"FALSCH")!
 </h1>
-<section>
+<h2 style="text-align: center;">@percentage% haben genauso geschätzt.</h2>
   <div class="pieID pie">
   </div>
   <ul class="pieID legend">
     <li>
-      <em>right</em>
+      <em>RICHTIG:</em>
       <span>@rnw.Right</span>
     </li>
     <li>
-      <em>wrong</em>
+      <em>FALSCH:</em>
       <span>@rnw.Wrong</span>
     </li>
   </ul>
-</section>
-
+  <br /><br /><br /><br />  <br /><br /><br /><br />
+</div>
+@*
 <pre>
 @Model.DumpJson()
 </pre>
+*@

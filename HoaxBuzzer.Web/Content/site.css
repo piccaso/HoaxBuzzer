@@ -118,7 +118,7 @@ h1 {
   border-radius: .2em;
   color: #000;
   content: attr(stamp);
-  font-size: 50px;
+  font-size: 100px;
   font-weight: bold;
   line-height: 1;
   opacity: 0;
@@ -165,32 +165,34 @@ body {
 section {
 }
 .pieID {
-  display: inline-block;
+  display: block;
   vertical-align: top;
 }
 .pie {
-  height: 200px;
-  width: 200px;
+  height: 600px;
+  width: 600px;
   position: relative;
-  margin: 0 30px 30px 0;
+  margin: auto;
+  text-align: center;
+  margin-left: 30px;
 }
 .pie::before {
   content: "";
   display: block;
   position: absolute;
   z-index: 1;
-  width: 100px;
-  height: 100px;
+  width: 166px;
+  height: 166px;
   background: #EEE;
   border-radius: 50%;
-  top: 50px;
-  left: 50px;
+  top: 166px;
+  left: 166px;
 }
 .slice {
   position: absolute;
-  width: 200px;
-  height: 200px;
-  clip: rect(0px, 200px, 200px, 100px);
+  width: 500px;
+  height: 500px;
+  clip: rect(0px, 500px, 500px, 250px);
   animation: bake-pie 1s;
 }
 .slice span {
@@ -199,10 +201,10 @@ section {
   top: 0;
   left: 0;
   background-color: black;
-  width: 200px;
-  height: 200px;
+  width: 500px;
+  height: 500px;
   border-radius: 50%;
-  clip: rect(0px, 200px, 200px, 100px);
+  clip: rect(0px, 500px, 500px, 250px);
 }
 .legend {
   list-style-type: none;
@@ -210,10 +212,10 @@ section {
   margin: 0;
   background: #FFF;
   padding: 15px;
-  font-size: 13px;
+  font-size: 30px;
 }
 .legend li {
-  width: 110px;
+  width: 180px;
   height: 1.25em;
   margin-bottom: 0.7em;
   padding-left: 0.5em;

@@ -7,17 +7,19 @@
 
 @if (Model.Article.articleIsTrue)
 {
-    <h1 class="stamp stamp--true">Der Artikel wird NICHT als Fake eingestuft (TRUE).</h1>
+    <h1 class="stamp stamp--true" style="color: green">Der Artikel wird NICHT als Fake eingestuft (TRUE).</h1>
 }
 else
 {
-    <h1 class="stamp stamp--false">Der Artikel wird als FAKE eingestuft (FAKE).</h1>
+    <h1 class="stamp stamp--false" style="color: red">Der Artikel wird als FAKE eingestuft (FAKE).</h1>
 }
 
-<div style="font-size: 30px" stamp="@(Model.VoteStatistics.articleIsTrue ? "true":"false")">
+<div stamp="@(Model.VoteStatistics.articleIsTrue ? "true":"false")">
     @Html.Partial("Partial/Article", Model)
 </div>
 
+@*
 <pre>
 @Model.VoteStatistics.DumpJson()
 </pre>
+*@
